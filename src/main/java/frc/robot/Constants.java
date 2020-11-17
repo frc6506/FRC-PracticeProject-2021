@@ -39,7 +39,7 @@ public final class Constants {
     // left joystick (horizontal)
     public static final int JOYSTICK_DRIVE_ROTATION_ID = 0;
     // right joystick (vertical)
-    public static final int JOYSTICK_ARM_CONTROL_ID = 5;
+    public static final int JOYSTICK_ARM_CONTROL_ID = 3;
     // triggers (L,R accordingly)
     public static final int JOYSTICK_INTAKE_ID = 2;
     public static final int JOYSTICK_OUTPUT_ID = 3;
