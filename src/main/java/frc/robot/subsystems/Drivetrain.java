@@ -9,22 +9,20 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.Spark;
+//import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Drivetrain extends SubsystemBase {
 
-  Spark leftBack = new Spark(Constants.MOTOR_LEFT_BACK_ID);
-  Spark leftFront = new Spark(Constants.MOTOR_LEFT_FRONT_ID);
-  Spark rightBack = new Spark(Constants.MOTOR_RIGHT_BACK_ID);
-  Spark rightFront = new Spark(Constants.MOTOR_RIGHT_FRONT_ID);
+  CANSparkMax leftMotor = new CANSparkMax(Constants.MOTOR_LEFT_ID, MotorType.kBrushless);
+  CANSparkMax rightMotor = new CANSparkMax(Constants.MOTOR_RIGHT_ID, MotorType.kBrushless);
   
-  SpeedControllerGroup leftMotors = new SpeedControllerGroup(leftBack, leftFront);
-  SpeedControllerGroup rightMotors = new SpeedControllerGroup(rightBack, rightFront);
 
-  DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
+  DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
   /**
    * Creates a new Drivetrain.
    */

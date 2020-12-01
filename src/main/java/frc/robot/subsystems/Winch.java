@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -8,13 +8,22 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class ExampleSubsystem extends SubsystemBase {
+public class Winch extends SubsystemBase {
   /**
-   * Creates a new ExampleSubsystem.
+   * Creates a new Winch.
    */
-  public ExampleSubsystem() {
-    // Bruh
+  TalonSRX winchMotor = new TalonSRX(Constants.MOTOR_CLIMB_WINCH_ID);
+  
+  public void winchUp() {
+    winchMotor.set(ControlMode.PercentOutput, 1.0);
+  }
+
+  public void winchDown() {
+    winchMotor.set(ControlMode.PercentOutput, -1.0);
   }
 
   @Override
