@@ -6,11 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-import frc.robot.Constants;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 public class Roller extends SubsystemBase {
@@ -22,6 +22,7 @@ public class Roller extends SubsystemBase {
 
   }
   
+  //Run roller motors based off of Xbox controller values
   public void intake(XboxController controller) {
     if (controller.getRawAxis(Constants.JOYSTICK_INTAKE_ID) > 0.5) {
       rollerMotor.set(ControlMode.PercentOutput, 1.0);
