@@ -7,8 +7,17 @@
 
 package frc.robot;
 
+import java.util.Arrays;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.ExampleCommand;
@@ -17,6 +26,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Winch;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -66,6 +76,27 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    
+    TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(2), Units.feetToMeters(2));
+    config.setKinematics(drivetrain.getKinematics());
+
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+      Arrays.asList(new Pose2d(), new Pose2d(1.0 ,0,new Rotation2d())),
+      config);
+
+    RamseteCommand command = new RamseteCommand(
+      trajectory,
+      drivetrain::getPose,
+      new RamseteController(2.0, 0.7),
+      drivetrain.getFeedforward(),
+      drivetrain.getKinematics(),
+      drivetrain::getSpeeds,
+      drivetrain.getLeftPIDController(),
+      drivetrain.getRightPIDController(),
+      drivetrain::setOutput,
+      drivetrain
+    );
+
+    return command;
   }
 }
