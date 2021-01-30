@@ -66,6 +66,7 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    pose = odometry.update(getHeading(), (leftMotor.getEncoder().getPosition() * (1/10.75) * 6 * Math.PI), (rightMotor.getEncoder().getPosition() * (1/10.75) * 6 * Math.PI));
   }
 
   /**
@@ -137,8 +138,8 @@ public class Drivetrain extends SubsystemBase {
    * @param double rightVolts
    */ 
   public void setOutput(double leftVolts, double rightVolts) {
-    leftMotor.set(leftVolts);
-    rightMotor.set(rightVolts);
+    leftMotor.set(leftVolts / 12);
+    rightMotor.set(rightVolts / 12);
   }
 
 }
