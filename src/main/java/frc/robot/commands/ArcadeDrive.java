@@ -31,6 +31,7 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     dt.driveWithJoysticks(RobotContainer.controller);
+    System.out.print("Drive"); 
   }
 
   // Called once the command ends or is interrupted.

@@ -24,13 +24,20 @@ public class Roller extends SubsystemBase {
   
   //Run roller motors based off of Xbox controller values
   public void intake(XboxController controller) {
-    if (controller.getRawAxis(Constants.JOYSTICK_INTAKE_ID) > 0.5) {
+    /*if (controller.getRawAxis(Constants.JOYSTICK_INTAKE_ID) > 0.5) {
       rollerMotor.set(ControlMode.PercentOutput, 1.0);
+      System.out.println("LEFT_BUMPER_BUTTON_ID- intake motor forward");
     } else if (controller.getRawAxis(Constants.JOYSTICK_OUTPUT_ID) > 0.5) {
       rollerMotor.set(ControlMode.PercentOutput, -1.0);
+      System.out.print("RIGHT_BUMPER_BUTTON_ID- intake motor reverse"); 
     } else {
       rollerMotor.set(ControlMode.PercentOutput, 0);
+      System.out.println("Turning off roller");
     }
+    */
+    double intake = controller.getRawAxis(Constants.JOYSTICK_INTAKE_ID);
+    double output = controller.getRawAxis(Constants.JOYSTICK_OUTPUT_ID);
+    rollerMotor.set(ControlMode.PercentOutput, intake - output);
   }
 
   @Override

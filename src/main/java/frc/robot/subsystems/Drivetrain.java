@@ -40,11 +40,11 @@ public class Drivetrain extends SubsystemBase {
   // how robot positioned
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 
-  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0, 0, 0);
+  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.2, 2.0, 0.2);
 
   // how robot turn wheel
-  PIDController leftPIDController = new PIDController(0,0,0);
-  PIDController rightPIDController = new PIDController(0,0,0);
+  PIDController leftPIDController = new PIDController(0.015,0,0);
+  PIDController rightPIDController = new PIDController(0.015,0,0); 
 
   Pose2d pose;
 
@@ -60,7 +60,7 @@ public class Drivetrain extends SubsystemBase {
    * @param XboxController controller
    */
   public void driveWithJoysticks(XboxController controller) {
-    drive.arcadeDrive(controller.getRawAxis(1), controller.getRawAxis(0));
+    drive.arcadeDrive((controller.getRawAxis(1)) * -1, controller.getRawAxis(0),true);
   }
 
   @Override

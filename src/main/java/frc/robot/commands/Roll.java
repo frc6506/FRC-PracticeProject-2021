@@ -31,6 +31,7 @@ public class Roll extends CommandBase {
   @Override
   public void execute() {
     succRoller.intake(RobotContainer.controller);
+    System.out.print("Execute"); 
   }
 
   // Called once the command ends or is interrupted.

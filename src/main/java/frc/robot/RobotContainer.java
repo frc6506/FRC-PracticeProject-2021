@@ -21,10 +21,12 @@ import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Roll; 
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Winch;
+import frc.robot.subsystems.Roller; 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
@@ -40,11 +42,13 @@ public class RobotContainer {
   private final Drivetrain drivetrain = new Drivetrain();
   private final Arm arm = new Arm();
   private final Winch winch = new Winch();
+  private final Roller roller = new Roller(); 
 
   // commands
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain);
   private final ArmMove armMove = new ArmMove(arm);
+  private final Roll roll = new Roll(roller); 
 
   public static final XboxController controller = new XboxController(Constants.CONTROLLER_1_PORT_ID);
 
@@ -55,6 +59,7 @@ public class RobotContainer {
     // setting default commands
     drivetrain.setDefaultCommand(arcadeDrive);
     arm.setDefaultCommand(armMove);
+    roller.setDefaultCommand(roll); 
     // Configure the button bindings
     configureButtonBindings();
   }
