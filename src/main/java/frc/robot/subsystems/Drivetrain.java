@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -40,11 +41,11 @@ public class Drivetrain extends SubsystemBase {
   // how robot positioned
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 
-  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.2, 2.0, 0.2);
+  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.4, 1, 0.4);
 
   // how robot turn wheel
-  PIDController leftPIDController = new PIDController(0.015,0,0);
-  PIDController rightPIDController = new PIDController(0.015,0,0); 
+  PIDController leftPIDController = new PIDController(0.1,0.0,0.05);
+  PIDController rightPIDController = new PIDController(0.1,0.0,0.05); 
 
   Pose2d pose;
 
@@ -66,7 +67,8 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    pose = odometry.update(getHeading(), (leftMotor.getEncoder().getPosition() * (1/10.75) * 6 * Math.PI), (rightMotor.getEncoder().getPosition() * (1/10.75) * 6 * Math.PI));
+    pose = odometry.update(getHeading(), (0.0254 * (leftMotor.getEncoder().getPosition() * (1/10.75) * 6 * Math.PI)), (0.0254 * (rightMotor.getEncoder().getPosition() * (1/10.75) * 6 * Math.PI)));
+    SmartDashboard.putNumber("Gyro Angle", -gyro.getAngle()); 
   }
 
   /**
