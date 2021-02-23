@@ -104,4 +104,11 @@ public class RobotContainer {
 
     return command;
   }
+  
+  /**
+   * Resets the yaw to zero.  Does not recalbiarate.  
+   */
+  public void zeroGyro(){
+    drivetrain.gyro.reset();
+  }
 }
