@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +36,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -45,20 +47,29 @@ public class Drivetrain extends SubsystemBase {
   CANSparkMax rightMotor = new CANSparkMax(Constants.MOTOR_RIGHT_ID, MotorType.kBrushless);
 
   // Simulated encoder definitions
-  CANEncoder simEncoderLeft = leftMotor.getEncoder(); 
-  CANEncoder simEncoderRight = rightMotor.getEncoder(); 
+  CANEncoder encoderLeft = leftMotor.getEncoder(); 
+  CANEncoder encoderRight = rightMotor.getEncoder();
+
+  SimDeviceSim simEncoderLeft = new SimDeviceSim("SPARK MAX [" + Constants.MOTOR_LEFT_ID + "]");
+  SimDeviceSim simEncoderRight = new SimDeviceSim("SPARK MAX [" + Constants.MOTOR_RIGHT_ID + "]");
+
+  SimDouble leftPos = simEncoderLeft.getDouble("Position");
+  SimDouble leftVel = simEncoderLeft.getDouble("Velocity");
+  SimDouble rightPos = simEncoderRight.getDouble("Position");
+  SimDouble rightVel = simEncoderLeft.getDouble("Velocity");
 
   // Simulated field
   private Field2d m_field = new Field2d();
   
   // NavX gyroscope
-  AHRS gyro = new AHRS(SPI.Port.kMXP);
+  public AHRS gyro = new AHRS(SPI.Port.kMXP);
 
   // Simulated gyroscope(?)
   //May definately need to change some values later
-  SimDeviceSim simNavX = new SimDeviceSim("NavX Sensor [0]");  
-  SimDouble simAngle = simNavX.getDouble("Yaw");
-  double angle_deg = simAngle.get(); 
+  //SimDeviceSim simNavX = new SimDeviceSim("NavX Sensor [4]");  //Old: "NavX Sensor [0]" The kMXP port is 4 (See SPI.Port.kMXP enum thingy)
+  int simNavX = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+  SimDouble simAngle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(simNavX, "Yaw"));
+  double angle_deg = simAngle.get();
   
   // Robot kinematics (movement)
   DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(26));
@@ -124,11 +135,12 @@ public class Drivetrain extends SubsystemBase {
     m_driveSim.update(0.02); 
 
     //Update sensors
-    simEncoderLeft.setDistance(m_driveSim.getLeftPositionMeters()); 
-    simEncoderLeft.setRate(m_driveSim.getLeftVelocityMetersPerSecond());
-    simEncoderRight.setDistance(m_driveSim.getRightPositionMeters()); 
-    simEncoderRight.setRate(m_driveSim.getRightVelocityMetersPerSecond());
+    leftPos.set(m_driveSim.getLeftPositionMeters()); 
+    leftVel.set(m_driveSim.getLeftVelocityMetersPerSecond());
+    rightPos.set(m_driveSim.getRightPositionMeters()); 
+    rightVel.set(m_driveSim.getRightVelocityMetersPerSecond());
     //Update gyro
+    simAngle.set(-m_driveSim.getHeading().getDegrees());
   }
   /**
    * @param XboxController controller
