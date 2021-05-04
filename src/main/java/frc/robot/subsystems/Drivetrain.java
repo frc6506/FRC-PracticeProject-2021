@@ -77,28 +77,29 @@ public class Drivetrain extends SubsystemBase {
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 
   // Feedforward controller for Ramsete
-  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.4, 1, 0.4);
+  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.137, 3.24, 0.592);
 
   // how robot turn wheel
-  PIDController leftPIDController = new PIDController(0.1,0.0,0.05);
-  PIDController rightPIDController = new PIDController(0.1,0.0,0.05); 
+  PIDController leftPIDController = new PIDController(2.21,0.0,0.0);
+  PIDController rightPIDController = new PIDController(2.21,0.0,0.0); 
 
   Pose2d pose;
 
   DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
 
   //Create drivetrain simulation
-  static final double KvLinear = 0; 
-  static final double KaLinear = 0;
-  static final double KvAngular = 0; 
-  static final double KaAngular = 0; 
+  static final double KvLinear = 3.24; 
+  static final double KaLinear = 0.592;
+  static final double KvAngular = 1.5; 
+  static final double KaAngular = 0.3; 
+  static final double trackWidthMeters = 0.51;
 
   private DifferentialDrivetrainSim m_driveSim = new DifferentialDrivetrainSim(
     LinearSystemId.identifyDrivetrainSystem(KvLinear, KaLinear, KvAngular, KaAngular), 
     DCMotor.getNEO(2), 
-    0.025,
-    10.75, 
-    Units.inchesToMeters(3),  
+    10.75,
+    0.509, 
+    Units.inchesToMeters(3),
 
     // The standard deviations for measurement noise:
     // x and y:          0.001 m
@@ -132,13 +133,13 @@ public class Drivetrain extends SubsystemBase {
 
     // subsystem in a separate thread or have changed the nominal timestep
     // of TimedRobot, this value needs to match it.
-    m_driveSim.update(0.02); 
+    m_driveSim.update(0.07); 
 
     //Update sensors
-    leftPos.set(m_driveSim.getLeftPositionMeters()); 
-    leftVel.set(m_driveSim.getLeftVelocityMetersPerSecond());
-    rightPos.set(m_driveSim.getRightPositionMeters()); 
-    rightVel.set(m_driveSim.getRightVelocityMetersPerSecond());
+    simEncoderLeft.getDouble("Position").set(m_driveSim.getLeftPositionMeters()); 
+    simEncoderLeft.getDouble("Velocity").set(m_driveSim.getLeftVelocityMetersPerSecond());
+    simEncoderRight.getDouble("Position").set(m_driveSim.getRightPositionMeters()); 
+    simEncoderRight.getDouble("Velocity").set(m_driveSim.getRightVelocityMetersPerSecond());
     //Update gyro
     simAngle.set(-m_driveSim.getHeading().getDegrees());
   }

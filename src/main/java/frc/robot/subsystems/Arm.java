@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
-  TalonSRX armMotor = new TalonSRX(Constants.MOTOR_ARM_ID);
+  // TalonSRX armMotor = new TalonSRX(Constants.MOTOR_ARM_ID);
   /**
    * Creates a new Arm.
    */
@@ -24,7 +24,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void turn(XboxController controller) {
-    armMotor.set(ControlMode.PercentOutput, controller.getRawAxis(Constants.JOYSTICK_ARM_CONTROL_ID));
+    // armMotor.set(ControlMode.PercentOutput, controller.getRawAxis(Constants.JOYSTICK_ARM_CONTROL_ID));
   }
 
   @Override

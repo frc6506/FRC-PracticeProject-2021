@@ -14,7 +14,7 @@ import frc.robot.Constants;
 
 
 public class Roller extends SubsystemBase {
-  VictorSPX rollerMotor = new VictorSPX(Constants.MOTOR_ROLLER_ID);
+  // VictorSPX rollerMotor = new VictorSPX(Constants.MOTOR_ROLLER_ID);
   /**
    * Creates a new Roller.
    */
@@ -37,7 +37,7 @@ public class Roller extends SubsystemBase {
     */
     double intake = controller.getRawAxis(Constants.JOYSTICK_INTAKE_ID);
     double output = controller.getRawAxis(Constants.JOYSTICK_OUTPUT_ID);
-    rollerMotor.set(ControlMode.PercentOutput, intake - output);
+    // rollerMotor.set(ControlMode.PercentOutput, intake - output);
   }
 
   @Override

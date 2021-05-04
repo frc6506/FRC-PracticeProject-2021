@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+// import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -16,14 +16,14 @@ public class Winch extends SubsystemBase {
   /**
    * Creates a new Winch.
    */
-  TalonSRX winchMotor = new TalonSRX(Constants.MOTOR_CLIMB_WINCH_ID);
+  // TalonSRX winchMotor = new TalonSRX(Constants.MOTOR_CLIMB_WINCH_ID);
   
   public void winchUp() {
-    winchMotor.set(ControlMode.PercentOutput, 1.0);
+    // winchMotor.set(ControlMode.PercentOutput, 1.0);
   }
 
   public void winchDown() {
-    winchMotor.set(ControlMode.PercentOutput, -1.0);
+    // winchMotor.set(ControlMode.PercentOutput, -1.0);
   }
 
   @Override

@@ -86,9 +86,12 @@ public class RobotContainer {
     config.setKinematics(drivetrain.getKinematics());
 
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(new Pose2d(), new Pose2d(1.0, 0, new Rotation2d())),
+      Arrays.asList(new Pose2d(),
+      new Pose2d(0, 1.0, new Rotation2d(0)), 
+      new Pose2d(0, 1.0, new Rotation2d(90)),
+      new Pose2d(1.0, 1.0, new Rotation2d(90))),
       config);
-
+ 
     RamseteCommand command = new RamseteCommand(
       trajectory,
       drivetrain::getPose,
