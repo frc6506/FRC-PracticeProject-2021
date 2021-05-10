@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+
 //import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,6 +27,7 @@ import java.lang.Math;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.SPI;
 
 public class Drivetrain extends SubsystemBase {
@@ -33,28 +36,30 @@ public class Drivetrain extends SubsystemBase {
   CANSparkMax leftMotor = new CANSparkMax(Constants.MOTOR_LEFT_ID, MotorType.kBrushless);
   CANSparkMax rightMotor = new CANSparkMax(Constants.MOTOR_RIGHT_ID, MotorType.kBrushless);
   
+  
   //NavX gyroscope
   AHRS gyro = new AHRS(SPI.Port.kMXP);
 
   // how robot need to go
-  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(26));
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(0.527);
   // how robot positioned
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 
-  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.4, 1, 0.4);
+  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.323, 3.71, 0.313);
 
   // how robot turn wheel
-  PIDController leftPIDController = new PIDController(0.1,0.0,0.05);
-  PIDController rightPIDController = new PIDController(0.1,0.0,0.05); 
+  PIDController leftPIDController = new PIDController(1.84,0.0,0.0);
+  PIDController rightPIDController = new PIDController(1.84,0.0,0.0); 
 
-  Pose2d pose;
+  Pose2d pose = new Pose2d();
 
   DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
   /**
    * Creates a new Drivetrain.
    */
   public Drivetrain() {
-    
+    //gyro.calibrate();
+    //gyro.reset(); 
   }
 
   /**
@@ -68,7 +73,10 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     pose = odometry.update(getHeading(), (0.0254 * (leftMotor.getEncoder().getPosition() * (1/10.75) * 6 * Math.PI)), (0.0254 * (rightMotor.getEncoder().getPosition() * (1/10.75) * 6 * Math.PI)));
-    SmartDashboard.putNumber("Gyro Angle", -gyro.getAngle()); 
+    SmartDashboard.putNumber("Gyro Angle", -gyro.getAngle());
+    SmartDashboard.putNumber("Left Encoder", leftMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("Right Encoder", rightMotor.getEncoder().getPosition());
+ 
   }
 
   /**
@@ -76,7 +84,7 @@ public class Drivetrain extends SubsystemBase {
    * @return Angle of the gyroscope on a 2d plane in degrees
    */
   public Rotation2d getHeading() {
-    return Rotation2d.fromDegrees(-gyro.getAngle());
+    return Rotation2d.fromDegrees(0);
   }
 
   /**
@@ -141,7 +149,13 @@ public class Drivetrain extends SubsystemBase {
    */ 
   public void setOutput(double leftVolts, double rightVolts) {
     leftMotor.set(leftVolts / 12);
-    rightMotor.set(rightVolts / 12);
+    rightMotor.set( rightVolts / 12);
   }
 
+  public void reset(Trajectory trajectory){
+    //gyro.reset(); 
+    odometry.resetPosition(trajectory.getInitialPose(), getHeading()); 
+    leftMotor.getEncoder().setPosition(0); 
+    rightMotor.getEncoder().setPosition(0);
+  }
 }

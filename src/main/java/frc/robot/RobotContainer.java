@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -73,6 +74,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
   }
 
+  public void returnFinalPose() {
+    SmartDashboard.putNumber("Final Pose", drivetrain.getPose().getRotation().getDegrees());
+  }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -81,13 +86,22 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    
+
     TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(2), Units.feetToMeters(2));
     config.setKinematics(drivetrain.getKinematics());
-
+    
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(new Pose2d(), new Pose2d(1.0, 0, new Rotation2d())),
-      config);
+      Arrays.asList(new Pose2d(),new Pose2d(0, 1.0, new Rotation2d(0))),config);
+    drivetrain.reset(trajectory);
+  
+    System.out.println("trajectory after reset: " + trajectory);
+    var transform = drivetrain.getPose().minus(trajectory.getInitialPose()); 
+    System.out.println("transofrm: " + transform);
+    trajectory = trajectory.transformBy(transform); 
+    System.out.println("trajectory: " + trajectory);
+    
+    SmartDashboard.putNumber("Initial Rotation", trajectory.getInitialPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("Pose", drivetrain.getPose().getRotation().getDegrees()); 
 
     RamseteCommand command = new RamseteCommand(
       trajectory,
@@ -101,7 +115,9 @@ public class RobotContainer {
       drivetrain::setOutput,
       drivetrain
     );
-
+    //drivetrain.reset(trajectory);
     return command;
-  }
+  } 
+       
+
 }

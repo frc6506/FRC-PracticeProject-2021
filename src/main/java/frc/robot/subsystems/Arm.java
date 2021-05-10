@@ -20,7 +20,7 @@ public class Arm extends SubsystemBase {
    * Creates a new Arm.
    */
   public Arm() {
-    
+    armMotor.setInverted(true);
   }
 
   public void turn(XboxController controller) {
