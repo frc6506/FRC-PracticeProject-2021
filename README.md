@@ -1,8 +1,10 @@
 # FRC-PracticeProject-2021 (Formerly Practice-Project)
+
 Updating 2020 semi-outdated command-based code to the latest 2021 command-based framework, while adding new features.
 
 ## Postseason / pre-archival comment
-This code was based off of the [2020 robot's code](https://github.com/frc6506/FRC-RobotCode-2020) and devloped during the 2021 season (COIVD-19 pandemic).
+
+This code was based off of the [2020 robot's code](https://github.com/frc6506/FRC-RobotCode-2020) and developed during the 2021 season (COVID-19 pandemic).
 From the readme:
 ># FRC-RobotCode-2020
 >
@@ -14,4 +16,4 @@ From the readme:
 >
 >Team website: https://steelboot.weebly.com Email Address: FRCteam6506@gmail.com
 
-At the time this repostry was created, WPLib-j had undegone a rather extensive update, so the commandbased code used relied on a deprecated library version.
+At the time this repository was created, WPLib-j had undergone a rather extensive update, so the command-based code used relied on a deprecated library version.
