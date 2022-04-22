@@ -24,7 +24,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void turn(XboxController controller) {
-    armMotor.set(ControlMode.PercentOutput, controller.getRawAxis(Constants.JOYSTICK_ARM_CONTROL_ID));
+    armMotor.set(ControlMode.PercentOutput, 0);
   }
 
   @Override

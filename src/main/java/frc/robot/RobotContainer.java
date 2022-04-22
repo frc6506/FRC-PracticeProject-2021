@@ -38,17 +38,17 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
  */
 public class RobotContainer {
   // subsystem
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain = new Drivetrain();
-  private final Arm arm = new Arm();
-  private final Winch winch = new Winch();
-  private final Roller roller = new Roller(); 
+  //private final Arm arm = new Arm();
+  //private final Winch winch = new Winch();
+  //private final Roller roller = new Roller(); 
 
   // commands
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain);
-  private final ArmMove armMove = new ArmMove(arm);
-  private final Roll roll = new Roll(roller); 
+  //private final ArmMove armMove = new ArmMove(arm);
+  //private final Roll roll = new Roll(roller); 
 
   public static final XboxController controller = new XboxController(Constants.CONTROLLER_1_PORT_ID);
 
@@ -58,8 +58,8 @@ public class RobotContainer {
   public RobotContainer() {
     // setting default commands
     drivetrain.setDefaultCommand(arcadeDrive);
-    arm.setDefaultCommand(armMove);
-    roller.setDefaultCommand(roll); 
+    //arm.setDefaultCommand(armMove);
+    //roller.setDefaultCommand(roll); 
     // Configure the button bindings
     configureButtonBindings();
   }

@@ -37,7 +37,7 @@ public class Roller extends SubsystemBase {
     */
     double intake = controller.getRawAxis(Constants.JOYSTICK_INTAKE_ID);
     double output = controller.getRawAxis(Constants.JOYSTICK_OUTPUT_ID);
-    rollerMotor.set(ControlMode.PercentOutput, intake - output);
+    rollerMotor.set(ControlMode.PercentOutput, 0);
   }
 
   @Override

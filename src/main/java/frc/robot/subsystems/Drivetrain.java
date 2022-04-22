@@ -61,7 +61,7 @@ public class Drivetrain extends SubsystemBase {
    * @param XboxController controller
    */
   public void driveWithJoysticks(XboxController controller) {
-    drive.arcadeDrive((controller.getRawAxis(1)) * -1, controller.getRawAxis(0),true);
+    drive.arcadeDrive((controller.getRawAxis(1)) * -1*.5, controller.getRawAxis(0)*.5,true);
   }
 
   @Override
@@ -140,8 +140,8 @@ public class Drivetrain extends SubsystemBase {
    * @param double rightVolts
    */ 
   public void setOutput(double leftVolts, double rightVolts) {
-    leftMotor.set(leftVolts / 12);
-    rightMotor.set(rightVolts / 12);
+    leftMotor.set(0);
+    rightMotor.set(0);
   }
 
 }

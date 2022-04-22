@@ -19,11 +19,11 @@ public class Winch extends SubsystemBase {
   TalonSRX winchMotor = new TalonSRX(Constants.MOTOR_CLIMB_WINCH_ID);
   
   public void winchUp() {
-    winchMotor.set(ControlMode.PercentOutput, 1.0);
+    winchMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void winchDown() {
-    winchMotor.set(ControlMode.PercentOutput, -1.0);
+    winchMotor.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
